@@ -8,7 +8,7 @@ from common.enricher import Enricher
 from common.exceptions import EmptyOutputFromPreviousTask
 from common.scoap3_s3 import Scoap3Repository
 from common.utils import create_or_update_article, parse_without_names_spaces
-from inspire_utils.record import get_value
+from inspire_utils.inspire_utils import get_value
 from jsonschema import validate
 from oup.parser import OUPParser
 from oup.repository import OUPRepository

@@ -12,5 +12,4 @@ plyvel
 pycountry
 six
 babel
-dateutil
-itertools
+python-dateutil

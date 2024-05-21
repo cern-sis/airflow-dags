@@ -43,7 +43,7 @@ jobs:
 
       - name: Start airflow
         run: |
-        	airflow db init
+          airflow db init
           airflow webserver -D
           airflow triggerer -D
           airflow scheduler -D

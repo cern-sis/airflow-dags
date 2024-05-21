@@ -11,6 +11,9 @@ COPY requirements-test.txt ./requirements-test.txt
 COPY requirements-airflow.txt ./requirements-airflow.txt
 
 COPY dags ./dags
+COPY tests ./tests
+COPY data ./data
+
 COPY airflow.cfg ./airflow.cfg
 
 RUN pip install --upgrade pip &&\

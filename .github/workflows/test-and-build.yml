@@ -39,11 +39,13 @@ jobs:
           file: Dockerfile.test
           tags: ${{ env.IMAGE_NAME }}:latest
           push: false
-          load: true  # Ensure Docker image is loaded into Docker daemon
+          load: true
 
       - name: List Docker Images
         run: docker images
 
+      - name: List services for IT Tests
+        run: docker ps
+
       - name: Run Pytest in Docker
-        run: |
-          docker run --entrypoint /bin/bash ${{ env.IMAGE_NAME }}:latest -c "pytest"
+        run: docker run --name workflows --network=host --entrypoint pytest ${{ env.IMAGE_NAME }}:latest tests

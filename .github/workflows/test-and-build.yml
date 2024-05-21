@@ -26,8 +26,25 @@ jobs:
         with:
           python-version: 3.8.16
 
+      - name: Install python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install --no-cache-dir --upgrade setuptools
+          pip install --no-cache-dir --upgrade wheel
+          pip install -r requirements.txt -r requirements-test.txt -r requirements-airflow.txt
+
       - name: Run services on docker compose
         run: docker compose up -d postgres redis sftp ftp s3 create_buckets
+
+      - name: start airflow
+        run: |
+          airflow db init
+          airflow webserver -D
+          airflow triggerer -D
+          airflow scheduler -D
+          airflow celery worker -D
+          airflow celery flower -D
+          echo -e "\033[0;32m Airflow Started. \033[0m"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1

@@ -315,7 +315,7 @@ def get_country_ISO_name(country):
 
 def upload_json_to_s3(json_record, repo):
     file_in_bytes = io.BytesIO(json.dumps(json_record, indent=2).encode("utf-8"))
-    current_date = datetime.now().date()
+    current_date = datetime.datetime.now().date()
     current_date_str = current_date.strftime("%Y-%m-%d")
     current_date_and_time_str = current_date.strftime("%Y-%m-%d_%H:%M:%S")
     doi = get_value(json_record, "dois.value[0]")

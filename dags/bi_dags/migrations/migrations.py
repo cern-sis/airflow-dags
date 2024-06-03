@@ -17,6 +17,6 @@ with DAG(
         conn_id="superset_qa",
         command="{{ params.command }}",
         revision="{{ params.revision }}",
-        script_location=f"{os.environ['AIRFLOW_HOME']}/dags/migrations/",
+        script_location=f"{os.environ['AIRFLOW_HOME']}/dags/bi_dags/migrations/",
         executor_config=kubernetes_executor_config,
     )

@@ -9,7 +9,7 @@ on:
 
 env:
   PYTHON_VERSION: 3.8.16
-  AIRFLOW_HOME: /home/runner/work/airflow-dags/airflow-dags
+  AIRFLOW_HOME: /home/runner/work/airflow-dags/airflow-dags/repo/dags
   REGISTRY: registry.cern.ch
   IMAGE: cern-sis/airflow
   AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -69,10 +69,10 @@ jobs:
           docker run \
             --name airflowdags \
             --network=host \
-            -v "$(pwd)"/tests:/opt/airflow/tests \
-            -v "$(pwd)"/dags:/opt/airflow/dags \
-            -v "$(pwd)"/airflow.cfg:/opt/airflow/airflow.cfg \
-            -v "$(pwd)"/data:/opt/airflow/data \
+            -v "$(pwd)"/tests:/opt/airflow/repo/dags/repo/tests \
+            -v "$(pwd)"/dags:/opt/airflow/repo/dags/repo/dags \
+            -v "$(pwd)"/airflow.cfg:/opt/airflow/repo/dags/repo/airflow.cfg \
+            -v "$(pwd)"/data:/opt/airflow/repo/dags/repo/data \
             $REGISTRY/$IMAGE@${{ steps.build.outputs.image-digest }} \
             bash -c "airflow db init && \
               airflow webserver -D && \
@@ -80,10 +80,10 @@ jobs:
               airflow triggerer -D && \
               airflow celery worker -D && \
               airflow celery flower -D && \
-              pytest /opt/airflow/tests --cov=/opt/airflow --cov-report=xml"
+              pytest /opt/airflow/repo/dags/repo/tests --cov=/opt/airflow/repo/dags/repo --cov-report=xml"
 
       - name: Copy test coverage file to host machine
-        run: docker cp airflowdags:/opt/airflow/coverage.xml .
+        run: docker cp airflowdags:/opt/airflow/repo/dags/repo/coverage.xml .
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
